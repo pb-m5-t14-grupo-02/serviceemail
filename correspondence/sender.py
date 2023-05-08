@@ -20,18 +20,14 @@ def messenger(type: str, topic: str, user: dict) -> None:
         path = "templates/email_on_date.html"
     else:
         raise KeyError(f"It's necessary use just keys [{const.ON_DATE}, {const.EXPIRED}]")
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         html = f.read()
         html = replace_fields(html, **user)
         msg.attach(MIMEText(html, const.HTML))
-    
-    PROVIDER = os.getenv(const.EMAIL_PROVIDER)
-    PORT = int(os.getenv(const.EMAIL_PORT))
-    print(EMAIL_SENDER)
-    with smtplib.SMTP("smtp-mail.outlook.com", 587) as smtp:
+    with smtplib.SMTP(os.getenv(const.EMAIL_PROVIDER), int(os.getenv(const.EMAIL_PORT))) as smtp:
         smtp.starttls()
         smtp.login(EMAIL_SENDER, os.getenv(const.EMAIL_PASSWORD))
-        smtp.sendmail(EMAIL_SENDER, EMAIL_RECEIVER, "msg.as_string()")
+        smtp.sendmail(EMAIL_SENDER, EMAIL_RECEIVER, msg.as_string())
 
 def replace_fields(page, username, year, book, image, author, loan_date, return_date, penalty, **kwargs):
     fields = ("$" + field for field in

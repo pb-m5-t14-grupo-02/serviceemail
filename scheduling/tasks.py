@@ -9,6 +9,7 @@ from correspondence.sender import messenger
 dotenv.load_dotenv()
 
 def job(type: str, topic: str, endpoint: str):
+    print("\033[32mRunning " + type)
     response = requests.get(os.getenv(const.BASE_URL) + endpoint)
     users = response.json()
     for user in users:
@@ -23,9 +24,7 @@ def job(type: str, topic: str, endpoint: str):
             const.YEAR: user[const.BOOK][const.YEAR],
             const.AUTHOR: user[const.BOOK][const.AUTHOR][const.NAME]
             })
-    print()
-job(const.ON_DATE, "Livros com prazo de devolução próximo", 
-    const.WARN)
+
 
 schedule.every().day.at(
     os.getenv(const.SEND_TIME_LATE)).do(
