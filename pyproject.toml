@@ -2,11 +2,14 @@
 name = "serviceemail"
 version = "0.1.0"
 description = ""
-authors = ["\"matheucdd, leomitas, alves-leandro, PauloHenriqueTCastro\""]
+authors = ["matheucdd, leomitas, alves-leandro, PauloHenriqueTCastro"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+python-dotenv = "^1.0.0"
+requests = "^2.30.0"
+schedule = "^1.2.0"
 
 
 [build-system]
