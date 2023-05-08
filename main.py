@@ -1,6 +1,8 @@
 
 
 print("\033[34mInitializing library mail manager!")
+import datetime
+print(datetime.datetime.now())
 import requests
 import schedule
 import os
