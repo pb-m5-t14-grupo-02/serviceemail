@@ -33,7 +33,11 @@ def replace_fields(page, username, year, book, image, author, loan_date, return_
     fields = ("$" + field for field in
              (const.USERNAME, const.YEAR, const.BOOK, const.IMAGE,
              const.AUTHOR, const.LOAN_DATE, const.RETURN_DATE, const.PENALTY))
-    values = (username, year, book, image, author, loan_date, return_date, penalty)
+    values = [username, year, book, image, author, loan_date, return_date, penalty]
     for index, field in enumerate(fields):
+        if values[index] == const.PENALTY:
+            from locale import currency, setlocale, LC_MONETARY
+            setlocale(LC_MONETARY, 'pt-BR.UTF-8')
+            values[index] = currency(values[index])
         page = page.replace(field, str(values[index]))
     return page
