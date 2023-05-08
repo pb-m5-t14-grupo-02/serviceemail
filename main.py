@@ -30,13 +30,22 @@ def job(type: str, topic: str, endpoint: str):
             const.AUTHOR: user[const.BOOK][const.AUTHOR][const.NAME]
             })
 
+def handle_hour(time: str):
+    hours = int(time[:2])
+    minutes = time[2:]
+    hours = hours + 3
+    if hours >= 24:
+        hours = hours - 24
+    if hours < 9:
+        hours = "0" + str(hours)
+    return str(hours) + minutes
 
 schedule.every().day.at(
-    os.getenv(const.SEND_TIME_LATE)).do(
+    handle_hour(os.getenv(const.SEND_TIME_LATE))).do(
     lambda: job(const.ON_DATE, "Livros com prazo de devolução próximo", 
     const.WARN))
 schedule.every().day.at(
-    os.getenv(const.SEND_TIME_WARN)).do(
+    handle_hour(os.getenv(const.SEND_TIME_WARN))).do(
     lambda: job(const.EXPIRED, "Livros em atraso",
     const.LATE))
 while True:
